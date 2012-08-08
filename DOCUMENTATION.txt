@@ -1,0 +1,171 @@
+DOCUMENTATION
+Created On August 7th, 2012
+By David (Woo Hyeok) Kang
+LazyTruth Project
+
+################
+#### Format ####
+################
+
+******************
+** File_in_extension || First_function_called
+				First_function_called_by_first
+(corresponding reading		....
+in Google Extension		Last_function_called_by_first
+Documentation or 
+brief explanation of
+what the part is doing)	
+			Second_function_called
+				First_function_by_second
+				....
+				Last_Function_called_by_second
+			Third
+				...
+				
+** Next File_	     || ...
+
+...
+*******************
+Note: Indentation indicates the Scope of the functions
+Note: Functions on same indentation level lives in the same Scope
+
+
+######################################
+## A. UI Creation/Deletion Functions #
+######################################
+
+
+(I) WHEN PAGE HAS CHANGED (ASYNCHRONOUSLY/SYNCHRONOUSLY)  --> Defined as Local Change
+
+Involved parts: listener.js, listener2.js, background.js
+***************
+** listener.js  ||  Inject_Div function
+		    	Create_UI--> base frame created by Justin/Stefan
+			initialize_button_ui
+		    
+** listener2.js ||  	initialize_button_ui --> (i) get localStorage data from the extension, then (ii) create or NOT create Button UI
+(logic)
+
+** background.js||  		messageListener --> responds with a dictionary {'option' : persistent | choice}
+(message passing)
+
+** listener2.js ||		create_button_ui --> Helper function that creates actual HTML elements
+(actual UI change)
+
+** listener.js 	||  Inject Div injects the 'target'
+***************
+
+(II) PAGE HAS NOT CHANGED (i.e. user is contemplating to change the Global Behavior) --> Defined as Global Change
+
+Involved parts: popup.js, listener2.js
+******************
+** popup.js	||  storeLocal  --> when the user clicks the radiobutton and saves
+(message passing)	sendTabId --> gets the Id of the TAB which gmail is loaded (note: asynchronous)
+				sendMessage  --> actually sends the message to content_script listener2.js
+
+** listener2.js || 		changeParse  --> Event Listener to Message Passing
+(message passing)			
+(UI change)				changeOption --> actually deletes the UI if necessary
+******************
+
+########################
+## B. Event Listeners  #
+########################
+
+******************
+**background.js || listen_gmail --> URL Tracking
+		
+(message passing)   messageListen --> Initial Message Receiving(deactivated after first run?? Or how does the background page work)
+		
+		Note: We Want the message receiving to run once (but not sure whether background page is run when extension is loaded)
+
+**popup.js	|| storeLocal
+			sendTabId
+(message)			sendMessage --> Message Passing for change in the User's option (asynchronous)
+
+**listener.js	||  N/A
+
+		Note: calls all the event listener from listener2.js
+		Note: Button Event Listener is built in the create_button_ui function
+
+**listener2.js 	|| create_button_ui --> Button Event Listener builtin line 4 (non-commented)
+			Note: (not sure if we should fetch from the API once, or remain active)
+(message)	   changeParse -->basically message passing parser for Global Change
+(UI Change)		changeOption
+*****************
+
+########################
+## C. Server Requests ##
+########################
+
+*****************************
+** send.js
+
+####################
+## N+1 KNOWN BUGS ##
+####################
+
+*******************
+** listener.js 	|| create_ui  --> currently the image is known to be insecure content
+
+** send.js	|| body_log	--> fetches the raw HTML, with html tags
+			sanitize_html
+		   body_log 	--> pop out to body_log
+			viral_body 	--> determines, by scoring function, the viral_body
+			
+			$.ajax  --> asynchronously request data
+				responseHandler  --> Handle the data we get back
+
+		  Note: above is simply an outline of the information flow
+
+	          Actual Bugs: Not many known, since our DB needs to be filled more
+
+** API:data/apps/views.py	|| needs to return short_url as well
+       data/apps/models.py	|| needs to make sure short_url is included in the models
+				|| also make a null fact (could try to make an automatic response mechanism)
+
+*******************
+
+#################################
+## N+2 User Guide to LazyTruth ##
+#################################
+(This section is in plain writing, deviating from the proposed format at top)
+
+1. First please download LazyTruth
+
+Few Things on Using LazyTruth
+-------
+If you click on the icon of LazyTruth, a Popup will appear!
+
+In it, there are two options: Persistent/Choice
+
+	By default, LazyTruth respects user privacy and is set to default 'choice' (more on what this means will follow, or you can skip ahead to (ii))
+	
+	After choosing either Persistent/Choice, hit save! to store your choice permanently.
+
+2. Select Your Choice
+
+3. Get to use LazyTruth!
+
+
+		(i)Development Stage (i.e. degree of selectivity in invoking the API)
+------------------------------------------------------------------------------------
+The extension is still at development stage and we are still working towards determining
+when the gadget UI should appear and when not to. (we need Logic to determine whether the UI should pop up for certain emails)
+
+At the current stage, our Logic is very weak (that is, not very selective)
+
+We are looking for intelligent strategies to approach this problem.
+------------------------------------------------------------------------------------
+
+		(ii)Meaning of 'choice'
+------------------------------------------------------------------------------------
+Simply means that you can always choose (by your click) when to send your email body to our API
+and try to get a match for a viral email
+------------------------------------------------------------------------------------
+
+		(iii)Meaning of 'persistent'
+------------------------------------------------------------------------------------
+Simply means that the UI will send any data of your body (which will in turn be chosen to be sent by our Logic--> See Development Stage for meaning of Logic)
+over to the API, without explicitly asking you to do so (wihtout you having to click the button)
+------------------------------------------------------------------------------------
