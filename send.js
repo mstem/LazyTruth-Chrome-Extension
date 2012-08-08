@@ -95,21 +95,31 @@ function body_nest(body) {
 
 ///////////////////////////////////////////////
 
-function response(result) {
+function myResponse(result) {
 	// No need to check for the existence of UI --> for if there weren't any UI component
 	// (i.e. the particular email isn't a viral email OR the page itself doesn't contain any email)
 	// there would have been no call to the Server to begin with
-	var extension = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('contextual_extension')[0];
+	//var extension = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('contextual_extension')[0];
+	console.log(result);
+	var iframe = document.getElementById('canvas_frame').contentDocument;
+	var source_icon = iframe.getElementsByClassName('lazytruth-icon')[0];
+	var debunk_text = iframe.getElementsByClassName('lazytruth-text')[0];
+	var link = iframe.getElementsByClassName('lazytruth-link')[0];
 	
-	if (result.matched === 'true') { // and there was a match
-		extension
-		//do this
-		// and return (True, [detail_url, fact_text, img_source, source_name])
+	if (result.matched === true) { // and there was a match
+		//source_icon.setAttribute('src', result.source_icon_url);
+		var textLength = result.fact_text.length
+		debunk_text.innerHTML = result.fact_text.substr(0, textLength -1);
+		console.log(result.detail_url);
+		link.innerHTML = result.detail_url;
 	} else {
+		debunk_text.innerHTML = 'I am sorry that the information you sent is currently not available. Please email us at ';
+		link.setAttribute('href', 'mailto:checkme@lazytruth.com');
+		link.innerHTML = 'checkme@lazytruth.com';
 		// return (False, [])
 	}
 }
-//lol
+
 
 ///////////////////////////////////////////////
 // Actual Function that's calling the API
@@ -143,9 +153,7 @@ function body_log() {
 			url: match_url,
 			data: {'text' : viral_body},
 			dataType: 'json',
-			success: function(result) {
-				console.log(result);
-			}
+			success: myResponse
 		});
 
 		return viral_body;

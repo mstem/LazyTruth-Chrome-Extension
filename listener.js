@@ -1,40 +1,34 @@
 function create_ui() {
+	var new_div;
+	var link;
+	var debunkText;
+	var srcIcon;
 	// Initially commented out the extraction part
-	var new_div = document.createElement('div'); 		
-
-	//var extractedText = document.createTextNode(json.fact_text);  
-	var debunkText = document.createElement("span");
+	new_div = document.createElement('div'); 		
+  
+	debunkText = document.createElement("span");
 	debunkText.setAttribute('style','font-size:80%;');
-	debunkText.innerHTML = "<fact_text>";
+	debunkText.innerHTML = "Will Display the Fact Text or Give you a we don't have an information on the viral email that you've sent";
+	debunkText.setAttribute('class', 'lazytruth-text');
 
- 	// Removed the source Icon since it seemed to be causing trouble --> NOTs
-
-	var srcIcon = document.createElement("img"); 
+	// default picture is the snopes picture
+	srcIcon = document.createElement("img"); 
 	srcIcon.setAttribute('src','http://lazytruth.media.mit.edu/media/sourceicons/snopes.png'); 
 	srcIcon.style.paddingRight='0.5em'; 
+	srcIcon.setAttribute('class', 'lazytruth-icon');
 
-	new_div.appendChild(srcIcon);
-
-	new_div.appendChild(debunkText);
-
-	var link = document.createElement('a');
-
-// For NOW, below if statement is simply ignored, we'll always assume there's a detail_url
-// WHICH MEANS that there's always an answer to the fact
-//if (json.detail_url != null) {
-	link.setAttribute('href', '<www.matching_detailed_url.com>');  
+	// For empty container, below if statement is simply ignored, we'll always assume there's a detail_url
+	// WHICH MEANS that there's always an answer to the fact
+	link = document.createElement('a');
+	link.setAttribute('href', '<www.matching_detailed_url.com> or "mailto:checkme@lazytruth.com"');  
 	link.setAttribute('style','font-weight:bold;padding-left:5px;font-size:1.1em;color:blue;');
-	link.innerHTML = 'Read more at <source_name>';
-	debunkText.appendChild(link);
+	link.innerHTML = "Link to Appear if url exists or checkme@lazytruth.com";
+	link.setAttribute('class', 'lazytruth-link');
 
-//} else {
-	extractedText= document.createTextNode("We do not have any information about this email. But that doesn't mean it's true. You can help us out by forwarding it to ");
-	link.setAttribute('href','mailto:checkme@lazytruth.com');
-	link.innerHTML = "checkme@lazytruth.com";
-	extractedText2 = document.createTextNode(".");
-	new_div.appendChild(extractedText);
-	new_div.appendChild(link);
-	new_div.appendChild(extractedText2);
+	debunkText.appendChild(link);
+	
+	new_div.appendChild(srcIcon);
+	new_div.appendChild(debunkText);
 
 	// Button for testing fetching the body of the email, Inheriting create_button_ui from listener2.js
 	// so if initialize button ui says that I should create button
