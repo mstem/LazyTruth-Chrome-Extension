@@ -99,25 +99,36 @@ function myResponse(result) {
 	// No need to check for the existence of UI --> for if there weren't any UI component
 	// (i.e. the particular email isn't a viral email OR the page itself doesn't contain any email)
 	// there would have been no call to the Server to begin with
-	//var extension = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('contextual_extension')[0];
-	console.log(result);
+	
+	//console.log(result);
 	var iframe = document.getElementById('canvas_frame').contentDocument;
 	var source_icon = iframe.getElementsByClassName('lazytruth-icon')[0];
-	var debunk_text = iframe.getElementsByClassName('lazytruth-text')[0];
-	var link = iframe.getElementsByClassName('lazytruth-link')[0];
+	// debunk_text is the actual textNode, beware of editing innerHTML
+	var debunk_text = iframe.getElementsByClassName('lazytruth-text')[0].childNodes[0];
+	var link = debunk_text.nextSibling;	
+	var dummyElement = 'dummy';
+
+	console.log('debunk text is this: ' +debunk_text.nodeValue);
+	console.log('link is this: ' + link);
 	
+	// Note: we want to alter the value of the TextNode of debunk_text
+	// debunkText Node --> innerHTML : (i)textNode (ii)'link' HTML element
+	// We want to edit (i)'s value and (ii)'s innerHTML
 	if (result.matched === true) { // and there was a match
+		// In the future, make sure the extension contains the source_icon and add logic
 		//source_icon.setAttribute('src', result.source_icon_url);
 		var textLength = result.fact_text.length
-		debunk_text.innerHTML = result.fact_text.substr(0, textLength -1);
-		console.log(result.detail_url);
+		// note: textNode has no innerHTML value
+		debunk_text.nodeValue = result.fact_text.substr(0, textLength -1);
+		link.setAttribute('href', result.detail_url);
 		link.innerHTML = result.detail_url;
 	} else {
-		debunk_text.innerHTML = 'I am sorry that the information you sent is currently not available. Please email us at ';
+		console.log('i am about to send you a sorry message');	
+		debunk_text.nodeValue = 'I am sorry that the information you sent is currently not available. Please email us at ';
 		link.setAttribute('href', 'mailto:checkme@lazytruth.com');
 		link.innerHTML = 'checkme@lazytruth.com';
-		// return (False, [])
 	}
+	detButtonCreation(dummyElement, 'afterCall');
 }
 
 
@@ -164,3 +175,10 @@ function body_log() {
 // we can add logic (via a new function) when to execute body_log
 // Note: to add logic, even in choice(button-case), we need to add LOGIC in create_button_ui
 body_log();
+
+function trackTimer(Name) {
+	var d = new Date();
+	var t = d.getTime();
+
+	console.log(Name + ' was created at time: ' + t);
+}

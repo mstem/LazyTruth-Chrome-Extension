@@ -31,10 +31,11 @@ function listen_gmail() {
 			if (tabId === tab_id) {
 				//console.log('The Gmail Tab must have changed');
 				chrome.tabs.executeScript(tab_id, {file: 'listener.js'});
-			}
-			if (localStorage && localStorage.option === 'persistent') {
-				console.log('localStorage is persistent execute AJAX protocol');
-				chrome.tabs.executeScript(tab_id, {file: 'send.js'});
+
+				if (localStorage && localStorage.option === 'persistent') {
+					console.log('localStorage is persistent execute AJAX protocol');
+					chrome.tabs.executeScript(tab_id, {file: 'send.js'});
+				}
 			}
 				
 		});
@@ -59,4 +60,5 @@ window.onload = function() {
 	trackListener('URL Change Listener');
 	messageListener();
 	trackListener('Initial Message Passing Listener');
+	localStorage['option'] = 'choice'
 };

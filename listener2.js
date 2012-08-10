@@ -34,7 +34,7 @@ Involved parts: listener.js, listener2.js, background.js
 ***************
 ** listener.js  ||  Inject_Div function
 		    	Create_UI--> base frame created by Justin/Stefan
-			initialize_button_ui
+			initialize_button_ui (Renamed to detButtonCreation)
 		    
 ** listener2.js ||  	initialize_button_ui --> (i) get localStorage data from the extension, then (ii) create or NOT create Button UI
 (logic)
@@ -96,12 +96,13 @@ function changeOption(option) {
 	//console.log("Tab : I have been notified of the change!");
 }
 
-function initialize_button_ui(target_div) {
+// Renaming initialize_button_ui to something else
+function detButtonCreation(target_div, query_type) {
 	// Function takes no input and outputs True if the initial extension option is choice
 	// meaning that we would like to create the button (hence True)
 	// Else, the choice must be persistent and thus we don't want the button
-
-	console.log('Tab : I am going to ask the Extension, for the first load time!');
+	if (query_type === 'initialize') console.log('Tab : I am going to ask the Extension, for the first load time!');
+	else if (query_type === 'afterCall') console.log('Tab : I am going to reevaluate the button value!');
 
 	chrome.extension.sendMessage({question:'tellme'}, function(response) {
 		// True here means that we want the button ui to be created
@@ -111,13 +112,21 @@ function initialize_button_ui(target_div) {
 		// Boolean really doesn't work because sendMessage is asynchronous
 		console.log('I got this answer from localStorage:' + response.answer);
 		if (response.answer !== 'persistent') {
-			create_button_ui(target_div);
-			console.log('button will be Created');
+			
+			if (query_type === 'initialize') {
+				create_button_ui(target_div);
+				console.log('button will be Created');
+			} else if (query_type === 'afterCall') {
+				delete_button_ui();
+				console.log('button will be deleted b/c call has been made');
+			}
 		} else {
 			console.log('button will NOT be created');
 		}
 	});
 }
+		
+	
 
 // For recreating/deleting button ui, because we are using asynchronous calls, let's make sure that 
 // deleting/recreating happens only Once
@@ -126,8 +135,10 @@ function delete_button_ui() {
 	
 	if (buttonEle) {
 		var parentNode = buttonEle.parentNode;
-
+		console.log('I am about to delete event listener and remove the button element');
+		buttonEle.removeEventListener('click', body_log, false); 
 		parentNode.removeChild(buttonEle);
+		
 	}
 }
 

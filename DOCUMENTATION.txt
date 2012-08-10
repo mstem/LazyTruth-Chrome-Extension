@@ -41,10 +41,11 @@ Involved parts: listener.js, listener2.js, background.js
 ***************
 ** listener.js  ||  Inject_Div function
 		    	Create_UI--> base frame created by Justin/Stefan
-			initialize_button_ui
+			detButtonCreation(<target_div>, 'initialize) // note that detButtonCreation is an update!
 		    
-** listener2.js ||  	initialize_button_ui --> (i) get localStorage data from the extension, then (ii) create or NOT create Button UI
-(logic)
+** listener2.js ||  	detButtonCreation -->  ('initialize' query_string indicates we want to create or not cf with 'afterCall' query_string)
+(logic)				(i) get localStorage data from the extension, then (ii) create or NOT create Button UI
+
 
 ** background.js||  		messageListener --> responds with a dictionary {'option' : persistent | choice}
 (message passing)
@@ -97,13 +98,41 @@ Involved parts: popup.js, listener2.js
 ########################
 ## C. Server Requests ##
 ########################
+I. Persistent Behavior
+---- based upon change in URL
 
 *****************************
-** send.js
+** background.js	|| listen_gmail
+(logic)				chrome.onUpdated (localStroage[option] === persistent)
+					send.js (execute body_log(); -----> at the bottom of send.js)
 
-####################
-## N+1 KNOWN BUGS ##
-####################
+** send.js		|| body_log
+(script_execution/		ajax_request
+API Call)				myResponse
+						detButtonCreation('afterCall') //determine whether or not to delete button
+
+** listener2.js		|| 		detButtonCreation --> will console 'Button will not be created'
+*****************************
+
+II. Choice Behavior
+---- based upon User Click on the Button
+
+*****************************
+** listener.js		|| inject_div
+				detButtonCreation('initialize') ---> tells the scripts to create Button b/c by Choice
+----------------------------------------------------USER CLICK (Event Listener Responds!)-----------------------------------------------------
+** send.js		|| body_log
+				ajax_request
+					myResponse
+						detButtonCreation('afterCall') //determines to delete button
+** listener2.js		||		detButtonCreation -->
+						delete_button_ui()
+							Note: by this point, event listener and UI should be gone
+*****************************
+
+#####################################
+## N+1 KNOWN BUGS OR THINGS TO NOTE##
+#####################################
 
 *******************
 ** listener.js 	|| create_ui  --> currently the image is known to be insecure content
@@ -123,6 +152,24 @@ Involved parts: popup.js, listener2.js
 ** API:data/apps/views.py	|| needs to return short_url as well
        data/apps/models.py	|| needs to make sure short_url is included in the models
 				|| also make a null fact (could try to make an automatic response mechanism)
+
+** send.js 	|| response
+			Note: debunk_text variable is a TextNode (you may alter it for convenience)
+				and that link variable is a link element(i.e. it's a HTML 'a' element)
+				
+			Note: We are referring to listener2.js for deletion of the API call after the first (delete_button_ui)
+			Reason: We want to check the localSetting of Option (persistent/choice) after setting the API call
+				and then get rid of the button with the event Listener
+				Note: b/c this method is asynchronous, we WONT WONT WONT use decorator
+					just repeat some code
+
+** send.js	|| myResponse
+			for some very weird reason, body_log isn't working the way it's supposed to be
+			b/c of asynchronous calls --> will need to attach event listeners and see actually
+			when the extension block is actually changing
+			
+			For now, persistent popup is disabled
+			Version 1.1 has popup disabled//only by choice
 
 *******************
 

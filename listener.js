@@ -52,9 +52,10 @@ function inject_div(div) {
 	// (i) get localStorage information
 	// (ii) based on (i), create the UI
 	console.log(target);
-	initialize_button_ui(target);
+	detButtonCreation(target, 'initialize');
 
 	if (div && (div.parentNode.childNodes.length < 3)) {	//avoid duplicates, b/c onUpdated event triggers script twice
+		//trackTimer('origina UI to be inserted');		
 		div.parentNode.insertBefore(target, div);
 	} else if (div.parentNode.childNodes.length === 3) console.log("You are a DUPLICATE");
 	else	console.log("You have No Target to INJECT LazyTruth"); // This line supposedly never gets executed
