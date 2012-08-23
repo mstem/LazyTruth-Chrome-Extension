@@ -119,7 +119,9 @@ function myResponse(result) {
 		//source_icon.setAttribute('src', result.source_icon_url);
 		var textLength = result.fact_text.length
 		// note: textNode has no innerHTML value
-		debunk_text.nodeValue = result.fact_text.substr(0, textLength -1);
+		if (textLength < 300) {
+			debunk_text.nodeValue = result.fact_text.substr(0, textLength -1);
+		} else debunk_text.nodeValue = result.fact_text.substr(0, 290) + 'read more at this link: ';
 		link.setAttribute('href', result.detail_url);
 		link.innerHTML = result.detail_url;
 	} else {

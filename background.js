@@ -25,7 +25,10 @@ function trackListener(listenerName) {
 function listen_gmail() {
 	chrome.tabs.query({url: '*://mail.google.com/*'}, function(tabs) {
 		// very serious mistake --> tab_id should be the result's ID, not the object itself
-		var tab_id = tabs[0].id;
+		
+		if (tabs[0]) {
+			var tab_id = tabs[0].id;
+		} else console.log('tab id must not exist');
 	
 		chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 			if (tabId === tab_id) {
@@ -61,4 +64,5 @@ window.onload = function() {
 	messageListener();
 	trackListener('Initial Message Passing Listener');
 	localStorage['option'] = 'choice'
+	listen_gmail();
 };
