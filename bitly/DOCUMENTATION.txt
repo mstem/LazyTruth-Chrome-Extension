@@ -1,0 +1,9 @@
+
+
+A. Shortening a long detail_url into short_url
+
+**************************************
+bitly_db.py	||TopCounter class
+			self.api --> bitly class
+
+bitly_connect.py	bitly class

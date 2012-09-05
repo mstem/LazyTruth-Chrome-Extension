@@ -1,0 +1,109 @@
+5.1.2.  Mailbox Namespace Naming Convention
+
+   By convention, the first hierarchical element of any mailbox name
+   which begins with "#" identifies the "namespace" of the remainder of
+   the name.  This makes it possible to disambiguate between different
+   types of mailbox stores, each of which have their own namespaces.
+
+        For example, implementations which offer access to USENET
+        newsgroups MAY use the "#news" namespace to partition the
+        USENET newsgroup namespace from that of other mailboxes.
+        Thus, the comp.mail.misc newsgroup would have a mailbox
+        name of "#news.comp.mail.misc", and the name
+        "comp.mail.misc" can refer to a different object (e.g., a
+        user's private mailbox).
+
+5.1.3.  Mailbox International Naming Convention
+
+   By convention, international mailbox names in IMAP4rev1 are specified
+   using a modified version of the UTF-7 encoding described in [UTF-7].
+   Modified UTF-7 may also be usable in servers that implement an
+   earlier version of this protocol.
+
+   In modified UTF-7, printable US-ASCII characters, except for "&",
+   represent themselves; that is, characters with octet values 0x20-0x25
+   and 0x27-0x7e.  The character "&" (0x26) is represented by the
+   two-octet sequence "&-".
+
+   All other characters (octet values 0x00-0x1f and 0x7f-0xff) are
+   represented in modified BASE64, with a further modification from
+   [UTF-7] that "," is used instead of "/".  Modified BASE64 MUST NOT be
+   used to represent any printing US-ASCII character which can represent
+   itself.
+
+
+
+
+
+
+Crispin                     Standards Track                    [Page 19]
+ 
+RFC 3501                         IMAPv4                       March 2003
+
+
+   "&" is used to shift to modified BASE64 and "-" to shift back to
+   US-ASCII.  There is no implicit shift from BASE64 to US-ASCII, and
+   null shifts ("-&" while in BASE64; note that "&-" while in US-ASCII
+   means "&") are not permitted.  However, all names start in US-ASCII,
+   and MUST end in US-ASCII; that is, a name that ends with a non-ASCII
+   ISO-10646 character MUST end with a "-").
+
+   The purpose of these modifications is to correct the following
+   problems with UTF-7:
+
+      1) UTF-7 uses the "+" character for shifting; this conflicts with
+         the common use of "+" in mailbox names, in particular USENET
+         newsgroup names.
+
+      2) UTF-7's encoding is BASE64 which uses the "/" character; this
+         conflicts with the use of "/" as a popular hierarchy delimiter.
+
+      3) UTF-7 prohibits the unencoded usage of "\"; this conflicts with
+         the use of "\" as a popular hierarchy delimiter.
+
+      4) UTF-7 prohibits the unencoded usage of "~"; this conflicts with
+         the use of "~" in some servers as a home directory indicator.
+
+      5) UTF-7 permits multiple alternate forms to represent the same
+         string; in particular, printable US-ASCII characters can be
+         represented in encoded form.
+
+      Although modified UTF-7 is a convention, it establishes certain
+      requirements on server handling of any mailbox name with an
+      embedded "&" character.  In particular, server implementations
+      MUST preserve the exact form of the modified BASE64 portion of a
+      modified UTF-7 name and treat that text as case-sensitive, even if
+      names are otherwise case-insensitive or case-folded.
+
+      Server implementations SHOULD verify that any mailbox name with an
+      embedded "&" character, used as an argument to CREATE, is: in the
+      correctly modified UTF-7 syntax, has no superfluous shifts, and
+      has no encoding in modified BASE64 of any printing US-ASCII
+      character which can represent itself.  However, client
+      implementations MUST NOT depend upon the server doing this, and
+      SHOULD NOT attempt to create a mailbox name with an embedded "&"
+      character unless it complies with the modified UTF-7 syntax.
+
+      Server implementations which export a mail store that does not
+      follow the modified UTF-7 convention MUST convert to modified
+      UTF-7 any mailbox name that contains either non-ASCII characters
+      or the "&" character.
+
+
+
+
+Crispin                     Standards Track                    [Page 20]
+ 
+RFC 3501                         IMAPv4                       March 2003
+
+
+           For example, here is a mailbox name which mixes English,
+           Chinese, and Japanese text:
+           ~peter/mail/&U,BTFw-/&ZeVnLIqe-
+
+           For example, the string "&Jjo!" is not a valid mailbox
+           name because it does not contain a shift to US-ASCII
+           before the "!".  The correct form is "&Jjo-!".  The
+           string "&U,BTFw-&ZeVnLIqe-" is not permitted because it
+           contains a superfluous shift.  The correct form is
+           "&U,BTF2XlZyyKng-".
