@@ -4,12 +4,17 @@ from apps.data.models import fact as Fact
 
 '''
 Date: 05/31/12  | LazyTruth Project  | Bit.ly Link Automatic Production
+
+09/05/12
+For MY_API_KEY : get it from bitly
+For Your_Id : input your id
 '''
-MY_API_KEY = 'R_097be7781d78d2663f8e9af9137796ed'
+YOUR_ID = 'Your ID'
+MY_API_KEY = 'YOUR API'
 
 #The common connection that is used for all internet connection
 #to the bitly server
-api = bitly.Connection('dkang9322', MY_API_KEY)
+api = bitly.Connection(YOUR_ID, MY_API_KEY)
 
 def parsed_fact_info_insertion(fact_data):
     '''
@@ -22,7 +27,7 @@ def parsed_fact_info_insertion(fact_data):
     Please refer to documentation of bitly_python module for detailed
     information about the api
     '''
-    #api = bitly.Connection('dkang9322', MY_API_KEY)
+
     
     for fact in fact_data:
         long_url = fact['detail_url']

@@ -14,8 +14,8 @@ import getpass, imaplib, os
 import time
 import datetime
 
-DEFAULT_ID = "kang.woohyeok"
-DEFAULT_PW = 'tangtangball011'
+DEFAULT_ID = "YOUR ID"
+DEFAULT_PW = 'PW'
 
 LARGE_DOMAINS = ["gmail", "yahoo"]
 
