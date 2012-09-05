@@ -2,6 +2,9 @@
 #June 5th, 2012
 # David Kang
 
+# 09/05/12 Update : for c.setopt --> enter in this format "<username>:<password>"
+# Please don't include the angled brackets
+
 import pycurl
 import cStringIO
 import urllib

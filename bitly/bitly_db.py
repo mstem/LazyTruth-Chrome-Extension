@@ -4,6 +4,9 @@ Made on June 6th, 2012
 Edited on June 7th, 2012
 
 Bitly-Database Encoding Classes
+
+9/5/2012
+Add your username/password at __init__ function
 '''
 import incf.countryutils
 from incf.countryutils import transformations
@@ -34,7 +37,7 @@ bitlyAPI counting and data retrieval example
 
 class TopCounter(object):
 
-    def __init__(self, category_string, user='dkang9322', pw='123dkangA'):
+    def __init__(self, category_string, user='USERNAME', pw='PW'):
         self.cat = ""
         self.user = user
         self.pw = pw
