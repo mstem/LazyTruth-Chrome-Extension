@@ -1,8 +1,8 @@
 {
-	"name": "My First Extension",
+	"name": "LazyTruth",
 	"version": "1.1.1",
 	"manifest_version": 2,
-	"description": "The LazyTruth Extension, Users can Choose to send their data.",
+	"description": "When you get a chain email, we get you the truth.",
 	
 	"background" : {
 		"page": "background.html"
