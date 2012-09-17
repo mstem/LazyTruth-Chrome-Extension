@@ -1,4 +1,4 @@
-/*
+﻿/*
 Few Notes: Unclear as to what we should do with some foreign characters,
 one problem for instance �--> this character doesn't seem to be taken care of
 
@@ -116,19 +116,22 @@ function myResponse(result) {
 	// We want to edit (i)'s value and (ii)'s innerHTML
 	if (result.matched === true) { // and there was a match
 		// In the future, make sure the extension contains the source_icon and add logic
-		//source_icon.setAttribute('src', result.source_icon_url);
+		source_icon.setAttribute('src', 'http://lazytruth.media.mit.edu'+result.source_icon_url);
 		var textLength = result.fact_text.length
 		// note: textNode has no innerHTML value
 		if (textLength < 300) {
 			debunk_text.nodeValue = result.fact_text.substr(0, textLength -1);
 		} else debunk_text.nodeValue = result.fact_text.substr(0, 290) + 'read more at this link: ';
 		link.setAttribute('href', result.detail_url);
+		link.setAttribute('style','font-weight:bold;padding-left:5px;font-size:1.1em;color:blue;');
 		link.innerHTML = result.detail_url;
 	} else {
 		console.log('i am about to send you a sorry message');	
-		debunk_text.nodeValue = 'I am sorry that the information you sent is currently not available. Please email us at ';
+		debunk_text.nodeValue = 'We do not have any information about this email. But that doesn\'t mean it\'s true. You can help us out by forwarding it to';
 		link.setAttribute('href', 'mailto:checkme@lazytruth.com');
 		link.innerHTML = 'checkme@lazytruth.com';
+		link.setAttribute('style','font-weight:bold;padding-left:5px;font-size:1.1em;color:blue;');
+		source_icon.setAttribute('src', 'http://lazytruth.media.mit.edu/media/sourceicons/unsure.gif');
 	}
 	detButtonCreation(dummyElement, 'afterCall');
 }
