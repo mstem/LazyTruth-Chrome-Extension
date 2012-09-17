@@ -22,17 +22,25 @@ function trackListener(listenerName) {
 	console.log(listenerName + ' was created at time: ' + t);
 }
 
+var tab_id;
+
 function listen_gmail() {
 	chrome.tabs.query({url: '*://mail.google.com/*'}, function(tabs) {
 		// very serious mistake --> tab_id should be the result's ID, not the object itself
 		
 		if (tabs[0]) {
-			var tab_id = tabs[0].id;
+			tab_id = tabs[0].id;
 		} else console.log('tab id must not exist');
 	
-		chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
+		
+	});
+}
+
+function listen_chrome() {
+	chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
+			//ensure that tab_id is properly set
+			listen_gmail();
 			if (tabId === tab_id) {
-				//console.log('The Gmail Tab must have changed');
 				chrome.tabs.executeScript(tab_id, {file: 'listener.js'});
 
 				if (localStorage && localStorage.option === 'persistent') {
@@ -42,7 +50,6 @@ function listen_gmail() {
 			}
 				
 		});
-	});
 }
 
 function messageListener() {
@@ -59,10 +66,9 @@ function messageListener() {
 }
 
 window.onload = function() {
-	listen_gmail();
 	trackListener('URL Change Listener');
 	messageListener();
 	trackListener('Initial Message Passing Listener');
 	localStorage['option'] = 'choice'
-	listen_gmail();
+	listen_chrome();
 };
