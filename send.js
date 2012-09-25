@@ -101,7 +101,11 @@ function myResponse(result) {
 	// there would have been no call to the Server to begin with
 	
 	//console.log(result);
-	var iframe = document.getElementById('canvas_frame').contentDocument;
+	var frame = document.getElementById('canvas_frame');
+	if (!frame) {
+		return;
+	}
+	var iframe = frame.contentDocument;
 	var source_icon = iframe.getElementsByClassName('lazytruth-icon')[0];
 	// debunk_text is the actual textNode, beware of editing innerHTML
 	var debunk_text = iframe.getElementsByClassName('lazytruth-text')[0].childNodes[0];
@@ -144,7 +148,11 @@ function body_log() {
 	var body;
 	var body_length;
 	var match_url;
-	var array = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('ii gt adP adO');
+	var frame = document.getElementById('canvas_frame');
+	if (!frame) {
+		return;
+	}
+	var array = frame.contentDocument.getElementsByClassName('ii gt adP adO');
 	var last_email_index = array.length;
 
 
@@ -161,7 +169,7 @@ function body_log() {
 	
 		//Please Note that our current client-side filtering is really dependent on the (nested email) scoring function
 		viral_body = body_nest(body);
-		console.log(viral_body);
+		console.log('SENDING TO API: '+viral_body);
 
 		match_url = 'http://lazytruth.media.mit.edu/data/api/0.1/match/';
 		$.ajax({

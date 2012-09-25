@@ -119,21 +119,26 @@ function check_frames() {
 				console.log('BODY OF '+body);
 				var forward = false;
 				if (body.search('---- Forwarded message ----') > -1) {
+					console.log('TRUE 1');
 					forward = true;
 				}
 				if (body.search('---- Original message ----') > -1) {
+					console.log('TRUE 2');
 					forward = true;
 				}
 				if (body.search('Begin forwarded message:') > -1) {
+					console.log('TRUE 3');
 					forward = true;
 				}		
 				var subjectArray = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('ha');
 				var subject = subjectArray[0].innerHTML;
 				console.log('SUBJECT OF '+subject);
 				if (subject.search('Fwd') > -1) {
+					console.log('TRUE 4');
 					forward = true;
 				}
 				if (subject.search('FWD') > -1) {
+					console.log('TRUE 5');
 					forward = true;
 				}
 				if (!forward) {
