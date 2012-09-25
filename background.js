@@ -40,6 +40,7 @@ function listen_chrome() {
 	chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 			//ensure that tab_id is properly set
 			listen_gmail();
+
 			if (tabId === tab_id) {
 				chrome.tabs.executeScript(tab_id, {file: 'listener.js'});
 
