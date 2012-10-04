@@ -101,7 +101,7 @@ function myResponse(result) {
 	// there would have been no call to the Server to begin with
 	
 	//console.log(result);
-	var frame = document.getElementById('canvas_frame');
+	var frame = document.getElementById(':rr');
 	if (!frame) {
 		return;
 	}
@@ -148,7 +148,8 @@ function body_log() {
 	var body;
 	var body_length;
 	var match_url;
-	var frame = document.getElementById('canvas_frame');
+	var frame = document.getElementById(':rr');
+	console.log('FRAME OF '+frame);
 	if (!frame) {
 		return;
 	}
