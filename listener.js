@@ -97,20 +97,16 @@ though I'm curious why this is happening
 
 */
 function check_frames() {
-	if (document.getElementById('canvas_frame')) {
-		//console.log("canvas frame is loaded!!");
-		var frame = document.getElementById('canvas_frame');
+	var frame = document.getElementById(':rr');
+	if (frame) {
 
 
 		// Turns out the latter part isn't such a good way to check frames (as it would be true even if
 		// the element didn't exist at all--> that's because it's an element!!!
 		// Even with frame.contentDocument --> Not so successful after a while (returns just the div tag)
 
-		
-		if (frame.contentDocument.getElementsByClassName('gA gt ac5').length !== 0) {
-			//console.log("Email part exists!!");
-
-			var array = frame.contentDocument.getElementsByClassName('ii gt adP adO');
+		var array = frame.getElementsByClassName('ii gt adP adO');
+		if (array.length !== 0) {			
 			var last_email_index = array.length;
 
 			if (last_email_index !== 0) {
@@ -130,7 +126,7 @@ function check_frames() {
 					console.log('TRUE 3');
 					forward = true;
 				}		
-				var subjectArray = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('ha');
+				var subjectArray = frame.getElementsByClassName('ha');
 				var subject = subjectArray[0].innerHTML;
 				console.log('SUBJECT OF '+subject);
 				if (subject.search('Fwd') > -1) {
@@ -147,17 +143,16 @@ function check_frames() {
 			}
 
 
-			var target_div = frame.contentDocument.getElementsByClassName('gA gt ac5');
+			var target_div = frame.getElementsByClassName('gA gt ac5');
 			//console.log(target_div);
 			// This was the key --> there were in fact more than one 'gA gt ac5' within iframe
 			var target_div_index = target_div.length -1;
 			
 			inject_div(target_div[target_div_index]);
 
-			//console.log("Part Would Have Been Injected!");
-		} //else console.log("Email part doesn't exist!!");
+		} 
 
-	} //else console.log("canvas frame isn't loaded!!");
+	} 
 };
 ///////////////////////////////////////
 
