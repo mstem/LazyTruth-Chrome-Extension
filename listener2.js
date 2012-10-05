@@ -87,13 +87,10 @@ function changeParse() {
 function changeOption(option) {
 	// we want to delete the button_ui if the option is not persistent
 	if (option === 'persistent') {
-		console.log("delete_button_ui(); should have been triggered!");
 		delete_button_ui();
 	} else {
-		//console.log('recreate_button_ui() has been triggered!');
 		recreate_button_ui();
 	}
-	//console.log("Tab : I have been notified of the change!");
 }
 
 // Renaming initialize_button_ui to something else
@@ -101,8 +98,6 @@ function detButtonCreation(target_div, query_type) {
 	// Function takes no input and outputs True if the initial extension option is choice
 	// meaning that we would like to create the button (hence True)
 	// Else, the choice must be persistent and thus we don't want the button
-	if (query_type === 'initialize') console.log('Tab : I am going to ask the Extension, for the first load time!');
-	else if (query_type === 'afterCall') console.log('Tab : I am going to reevaluate the button value!');
 
 	chrome.extension.sendMessage({question:'tellme'}, function(response) {
 		// True here means that we want the button ui to be created
@@ -115,14 +110,10 @@ function detButtonCreation(target_div, query_type) {
 			
 			if (query_type === 'initialize') {
 				create_button_ui(target_div);
-				console.log('button will be Created');
 			} else if (query_type === 'afterCall') {
 				delete_button_ui();
-				console.log('button will be deleted b/c call has been made');
 			}
-		} else {
-			console.log('button will NOT be created');
-		}
+		} 
 	});
 }
 		
@@ -131,14 +122,12 @@ function detButtonCreation(target_div, query_type) {
 // For recreating/deleting button ui, because we are using asynchronous calls, let's make sure that 
 // deleting/recreating happens only Once
 function delete_button_ui() {
-	var buttonEle = document.getElementById('canvas_frame').contentDocument.getElementById('lazytruth-button');
+	var buttonEle = document.getElementById('lazytruth-button');
 	
 	if (buttonEle) {
 		var parentNode = buttonEle.parentNode;
-		console.log('I am about to delete event listener and remove the button element');
 		buttonEle.removeEventListener('click', body_log, false); 
-		parentNode.removeChild(buttonEle);
-		
+		parentNode.removeChild(buttonEle);		
 	}
 }
 
@@ -146,11 +135,11 @@ function delete_button_ui() {
 // Javascript console freezes --> which means infinite loop
 // or something unusual --> can reuse console after loading/reloading
 function recreate_button_ui() {
-	var contextualExt = document.getElementById('canvas_frame').contentDocument.getElementsByClassName('contextual_extension')[0];
+	var contextualExt = document.getElementById(':rr').getElementsByClassName('contextual_extension')[0];
 	var len = contextualExt.childNodes.length -1;
 	if (contextualExt.childNodes[len].id !=='lazytruth-button') {
 		create_button_ui(contextualExt);	
-	} else console.log('Google multiple asynchronous requests');
+	} 
 }
 
 function create_button_ui(new_div) {
