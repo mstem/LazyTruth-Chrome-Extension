@@ -22,16 +22,14 @@ function trackListener(listenerName) {
 	console.log(listenerName + ' was created at time: ' + t);
 }
 
-var tab_id;
+var gmail_tabs;
 
 function listen_gmail() {
 	chrome.tabs.query({url: '*://mail.google.com/*'}, function(tabs) {
 		// very serious mistake --> tab_id should be the result's ID, not the object itself
-		
-		if (tabs[0]) {
-			tab_id = tabs[0].id;
-		} else console.log('tab id must not exist');
-	
+		for (i=0; i < tabs.length; ++i) {
+			gmail_tabs = tabs[0].id;	
+		}
 		
 	});
 }
@@ -40,16 +38,16 @@ function listen_chrome() {
 	chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 			//ensure that tab_id is properly set
 			listen_gmail();
+			for (i=0; i < 1; ++i) {
+				if (tabId == gmail_tabs) {
+					chrome.tabs.executeScript(tabId, {file: 'listener.js'});
 
-			if (tabId === tab_id) {
-				chrome.tabs.executeScript(tab_id, {file: 'listener.js'});
-
-				if (localStorage && localStorage.option === 'persistent') {
-					console.log('localStorage is persistent execute AJAX protocol');
-					chrome.tabs.executeScript(tab_id, {file: 'send.js'});
+					if (localStorage && localStorage.option === 'persistent') {
+						console.log('localStorage is persistent execute AJAX protocol');
+						chrome.tabs.executeScript(tabId, {file: 'send.js'});
+					}
 				}
-			}
-				
+			}		
 		});
 }
 
@@ -63,7 +61,6 @@ function messageListener() {
 			}
 		}
 	);
-	console.log("Extension : I have told my option in localStorage to the tab");
 }
 
 window.onload = function() {

@@ -105,15 +105,11 @@ function myResponse(result) {
 	if (!frame) {
 		return;
 	}
-	var iframe = frame.contentDocument;
-	var source_icon = iframe.getElementsByClassName('lazytruth-icon')[0];
+	var source_icon = frame.getElementsByClassName('lazytruth-icon')[0];
 	// debunk_text is the actual textNode, beware of editing innerHTML
-	var debunk_text = iframe.getElementsByClassName('lazytruth-text')[0].childNodes[0];
+	var debunk_text = frame.getElementsByClassName('lazytruth-text')[0].childNodes[0];
 	var link = debunk_text.nextSibling;	
 	var dummyElement = 'dummy';
-
-	console.log('debunk text is this: ' +debunk_text.nodeValue);
-	console.log('link is this: ' + link);
 	
 	// Note: we want to alter the value of the TextNode of debunk_text
 	// debunkText Node --> innerHTML : (i)textNode (ii)'link' HTML element
@@ -130,7 +126,6 @@ function myResponse(result) {
 		link.setAttribute('style','font-weight:bold;padding-left:5px;font-size:1.1em;color:blue;');
 		link.innerHTML = result.detail_url;
 	} else {
-		console.log('i am about to send you a sorry message');	
 		debunk_text.nodeValue = 'We do not have any information about this email. But that doesn\'t mean it\'s true. You can help us out by forwarding it to';
 		link.setAttribute('href', 'mailto:checkme@lazytruth.com');
 		link.innerHTML = 'checkme@lazytruth.com';
@@ -149,11 +144,10 @@ function body_log() {
 	var body_length;
 	var match_url;
 	var frame = document.getElementById(':rr');
-	console.log('FRAME OF '+frame);
 	if (!frame) {
 		return;
 	}
-	var array = frame.contentDocument.getElementsByClassName('ii gt adP adO');
+	var array = frame.getElementsByClassName('ii gt adP adO');
 	var last_email_index = array.length;
 
 
@@ -170,13 +164,13 @@ function body_log() {
 	
 		//Please Note that our current client-side filtering is really dependent on the (nested email) scoring function
 		viral_body = body_nest(body);
-		console.log('SENDING TO API: '+viral_body);
+		console.log('SENDING TO API: '+encodeURIComponent(viral_body));
 
 		match_url = 'http://lazytruth.media.mit.edu/data/api/0.1/match/';
 		$.ajax({
 			type: "POST",
 			url: match_url,
-			data: {'text' : viral_body},
+			data: {'text' : encodeURIComponent(viral_body)},
 			dataType: 'json',
 			success: myResponse
 		});
