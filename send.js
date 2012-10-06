@@ -22,12 +22,14 @@ function sanitize_html(html) {
 	var regex4 = /&[\w\W]+?;/g;	// Non-greedy tag for any HTML escape characters
 	var regex5 = /[\w]+.(?=com|org|edu)/g; // Email Matching for > (for nesting)
 
-
+	console.log('NEW STRING OF '+new_string);
 	new_string = new_string.replace(regex1, '');
 	new_string = new_string.replace(regex2, ' ');
 	//new_string = new_string.replace(regex3, '>');
 	new_string = new_string.replace(regex5, '>'); 
+	new_string = new_string.replace(/&nbsp;/g, ' ');
 	new_string = new_string.replace(regex4, '');
+	console.log('NEW STRING OF '+new_string);
 
 	return new_string;
 }
@@ -158,19 +160,17 @@ function body_log() {
 
 		body = sanitize_html(last_email); // eliminate the html_tags
 		body_length = body.length;
-
-		//console.log(body);
-		//console.log(body_nest(body));
+		console.log('BODY OF '+body);
 	
 		//Please Note that our current client-side filtering is really dependent on the (nested email) scoring function
 		viral_body = body_nest(body);
-		console.log('SENDING TO API: '+encodeURIComponent(viral_body));
+		console.log("SENDING TO API: "+encodeURIComponent(viral_body));
 
 		match_url = 'http://lazytruth.media.mit.edu/data/api/0.1/match/';
 		$.ajax({
 			type: "POST",
 			url: match_url,
-			data: {'text' : encodeURIComponent(viral_body)},
+			data: {'text' : viral_body},
 			dataType: 'json',
 			success: myResponse
 		});
