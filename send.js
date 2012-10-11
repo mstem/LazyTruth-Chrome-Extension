@@ -164,7 +164,7 @@ function body_log() {
 	
 		//Please Note that our current client-side filtering is really dependent on the (nested email) scoring function
 		viral_body = body_nest(body);
-		console.log("SENDING TO API: "+encodeURIComponent(viral_body));
+		console.log("SENDING TO API: "+viral_body);
 
 		match_url = 'http://lazytruth.media.mit.edu/data/api/0.1/match/';
 		$.ajax({
