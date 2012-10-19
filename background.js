@@ -63,10 +63,36 @@ function messageListener() {
 	);
 }
 
+function onInstall() {
+    console.log("Extension Installed");
+	chrome.tabs.create({url: "http://www.lazytruth.com/?page_id=78"});
+}
+
+function onUpdate() {
+    console.log("Extension Updated");
+}
+
+function getVersion() {
+    var details = chrome.app.getDetails();
+    return details.version;
+}
+
 window.onload = function() {
 	trackListener('URL Change Listener');
 	messageListener();
 	trackListener('Initial Message Passing Listener');
 	localStorage['option'] = 'choice'
 	listen_chrome();
+	// Check if the version has changed.
+	var currVersion = getVersion();
+	var prevVersion = localStorage['version']
+	if (currVersion != prevVersion) {
+    // Check if we just installed this extension.
+	if (typeof prevVersion == 'undefined') {
+      onInstall();
+    } else {
+      onUpdate();
+    }
+    localStorage['version'] = currVersion;
+  }
 };
