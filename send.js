@@ -118,7 +118,7 @@ function myResponse(result) {
 	// We want to edit (i)'s value and (ii)'s innerHTML
 	if (result.matched === true) { // and there was a match
 		// In the future, make sure the extension contains the source_icon and add logic
-		source_icon.setAttribute('src', 'http://lazytruth.media.mit.edu'+result.source_icon_url);
+		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu'+result.source_icon_url);
 		var textLength = result.fact_text.length
 		// note: textNode has no innerHTML value
 		if (textLength < 300) {
@@ -132,7 +132,7 @@ function myResponse(result) {
 		link.setAttribute('href', 'mailto:checkme@lazytruth.com');
 		link.innerHTML = 'checkme@lazytruth.com';
 		link.setAttribute('style','font-weight:bold;padding-left:5px;font-size:1.1em;color:blue;');
-		source_icon.setAttribute('src', 'http://lazytruth.media.mit.edu/media/sourceicons/unsure.gif');
+		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu/media/sourceicons/unsure.gif');
 	}
 	detButtonCreation(dummyElement, 'afterCall');
 }
@@ -166,7 +166,7 @@ function body_log() {
 		viral_body = body_nest(body);
 		console.log("SENDING TO API: "+viral_body);
 
-		match_url = 'http://lazytruth.media.mit.edu/data/api/0.1/match/';
+		match_url = 'https://lazytruth.media.mit.edu/data/api/0.1/match/';
 		$.ajax({
 			type: "POST",
 			url: match_url,

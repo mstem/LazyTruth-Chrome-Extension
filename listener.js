@@ -132,6 +132,10 @@ function check_frames() {
 					console.log('TRUE 5');
 					forward = true;
 				}
+				if (subject.search('Welcome to LazyTruth!') > -1) {
+					console.log('Welcome Email Detected');
+					forward = true;
+				}
 				if (!forward) {
 					return;
 				}
