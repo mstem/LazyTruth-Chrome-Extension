@@ -64,6 +64,9 @@ function inject_div(div) {
 	// (i) get localStorage information
 	// (ii) based on (i), create the UI
 	console.log(target);
+	
+	//console.log("DIV: " + div);
+	//console.log("parentNode.childNodes.length: " + div.parentNode.childNodes.length);
 
 	if (div && (div.parentNode.childNodes.length < 3)) {	//avoid duplicates, b/c onUpdated event triggers script twice
 		//trackTimer('origina UI to be inserted');		
@@ -101,13 +104,14 @@ function check_frames() {
 		// Even with frame.contentDocument --> Not so successful after a while (returns just the div tag)
 
 		var array = frame.getElementsByClassName('ii gt adP adO');
+		//console.log("Array Length: " + array.length);
 		if (array.length !== 0) {			
 			var last_email_index = array.length;
 
 			if (last_email_index !== 0) {
 				last_email = array[last_email_index - 1];
 				var body = last_email.outerHTML;
-				console.log('BODY OF '+body);
+				//console.log('BODY OF '+body);
 				var forward = false;
 				if (body.search('---- Forwarded message ----') > -1) {
 					console.log('TRUE 1');
@@ -143,7 +147,11 @@ function check_frames() {
 
 
 			var target_div = frame.getElementsByClassName('gA gt ac5');
-			//console.log(target_div);
+			//console.log("Target Div: " + target_div);
+			if (target_div.length == 0) {
+				//Assume new compose, inject somewhere else
+				target_div = frame.getElementsByClassName('gA gt acV');
+			}
 			// This was the key --> there were in fact more than one 'gA gt ac5' within iframe
 			var target_div_index = target_div.length -1;
 			
