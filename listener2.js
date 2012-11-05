@@ -152,7 +152,7 @@ function create_button_ui(new_div) {
 	// Button for testing fetching the body of the email
 	body_fetcher = document.createElement('BUTTON');
 	body_fetcher.setAttribute('id', 'lazytruth-button');
-	body_fetcher.setAttribute('style', 'padding:0.5em;background-color:#A7C3D3');
+	//body_fetcher.setAttribute('style', 'padding:0.5em;background-color:#A7C3D3');
 	body_fetcher.setAttribute('alt', 'Click to check LazyTruth for information about this email');
 	button_text = document.createTextNode('Ask LazyTruth');
 	body_fetcher.appendChild(button_text);
