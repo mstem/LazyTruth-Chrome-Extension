@@ -34,7 +34,7 @@ function create_ui() {
 	header.setAttribute('style','font-weight:bold;padding-bottom:0.25em;display:block;');
 
 	inner_div = document.createElement('div');
-	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;');
+	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;border-radius:10px;-moz-border-radius:10px;');
 	
 	new_div.appendChild(srcIcon);
 	inner_div.appendChild(header);
