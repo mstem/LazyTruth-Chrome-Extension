@@ -29,15 +29,15 @@ function create_ui() {
 
 	debunkText.appendChild(link);
 	
-	header = document.createElement('span');
-	header.innerHTML = "LazyTruth Says:";
-	header.setAttribute('style','font-weight:bold;padding-bottom:0.25em;display:block;');
+	//header = document.createElement('span');
+	//header.innerHTML = "LazyTruth Says:";
+	//header.setAttribute('style','font-weight:bold;padding-bottom:0.25em;display:block;');
 
 	inner_div = document.createElement('div');
 	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;');
 	
 	new_div.appendChild(srcIcon);
-	inner_div.appendChild(header);
+	//inner_div.appendChild(header);
 	inner_div.appendChild(debunkText);
 
 	detButtonCreation(inner_div,'initialize');
