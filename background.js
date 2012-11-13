@@ -13,6 +13,27 @@ listener2.js --> Button Event Listener (not sure if we should fetch from the API
 		ChangeParse (basically message passing parser for the OPTIONS)
 */
 
+// Google Analytics Code
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-22982865-1']);
+//_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+
+function logButtonClick(buttonId) {
+	_gaq.push(['_trackEvent', buttonId, 'clicked']);
+}
+
+function logButtonImpression(buttonId) {
+	_gaq.push(['_trackEvent', buttonId, 'viewed']);
+}
+// End Google Analytics Code
+
 // Helper Function to log when the listener was created
 // Used for background/Popup  --> Mainly URL Tracking event listener and Initial Message Listener
 function trackListener(listenerName) {
@@ -59,9 +80,21 @@ function messageListener() {
 			if (request.question) {
 				sendResponse({answer: localStorage['option']});
 			}
+			if (request.buttonClick) {
+				console.log("Button Click Message from Content Script");
+				logButtonClick(request.buttonClick);
+				sendResponse({answer: "Button Click Logged"});
+			}
+			if (request.buttonImpression) {
+				console.log("Button Impression Message from Content Script");
+				success = logButtonImpression(request.buttonImpression);
+				if (success) {sendResponse({answer: "Button Impression Failed"});}
+				else {sendResponse({answer: "Button Impression Logged"});}
+			}
 		}
 	);
 }
+
 
 function onInstall() {
     console.log("Extension Installed");
