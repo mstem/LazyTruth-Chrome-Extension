@@ -142,6 +142,22 @@ function recreate_button_ui() {
 	} 
 }
 
+// Google Analytics
+function trackButtonClick(e) {
+	console.log("Attempting button click log");
+	chrome.extension.sendMessage({buttonClick: e.target.id}, function(response) {
+		console.log(response.answer);
+	});
+    
+};
+
+function trackButtonImpression(e) {
+	console.log("Attempting button impression log");
+	chrome.extension.sendMessage({buttonImpression: e.target.id}, function(response) {
+		console.log(response.answer);
+	});
+}
+
 function create_button_ui(new_div) {
 	//Intially new_div is created below, but modified code so that
 	// I can add the button ui on top of the existing UI
@@ -157,7 +173,9 @@ function create_button_ui(new_div) {
 	button_text = document.createTextNode('Ask LazyTruth');
 	body_fetcher.appendChild(button_text);
 	
-	body_fetcher.addEventListener("click", body_log)
+	body_fetcher.addEventListener("click", body_log);
+	$(body_fetcher).click(trackButtonClick);
+	$(body_fetcher).bind("buttonImpression", trackButtonImpression);
 	new_div.appendChild(body_fetcher);
 }
 
