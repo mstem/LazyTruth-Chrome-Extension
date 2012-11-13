@@ -1,3 +1,6 @@
+
+
+
 function create_ui() {
 	var new_div;
 	var inner_div;
@@ -34,7 +37,8 @@ function create_ui() {
 	//header.setAttribute('style','font-weight:bold;padding-bottom:0.25em;display:block;');
 
 	inner_div = document.createElement('div');
-	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;');
+	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;border-radius:10px;-moz-border-radius:10px;');
+	inner_div.setAttribute('id', 'lazytruth-inner-div');
 	
 	new_div.appendChild(srcIcon);
 	//inner_div.appendChild(header);
@@ -43,6 +47,15 @@ function create_ui() {
 	detButtonCreation(inner_div,'initialize');
 
 	new_div.appendChild(inner_div);
+	
+	$('#lazytruth-button').trigger("buttonImpression");
+	
+	// if ($('#lazytruth-inner-div #lazytruth-button').length > 0) {
+		// console.log("I spy a button!");
+		// if we see the button, they see the button. So we have an impression.
+		// $('#lazytruth-button').trigger("buttonImpression");
+		
+	// }
 
 	// Button for testing fetching the body of the email, Inheriting create_button_ui from listener2.js
 	// so if initialize button ui says that I should create button
