@@ -13,11 +13,13 @@
 		{
 			"matches": ["*://mail.google.com/*"],
 			"js": ["jquery.js", "send.js", "listener2.js", "listener.js"],
-      "css": ["button.css"],
+            "css": ["button.css"],
 			"all_frames": true,
 			"run_at": "document_end"
 		}
 	],
+	
+	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 
 	"permissions": [
 		"*://*.google.com/",
