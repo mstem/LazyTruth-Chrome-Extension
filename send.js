@@ -20,7 +20,7 @@ function sanitize_html(html) {
 	var regex2 = /[\n]/g;	     // empty space replacer
 	var regex3 = /&gt;/g;			// Non-greedy tag for any EMail <, > characters (for nesting)
 	var regex4 = /&[\w\W]+?;/g;	// Non-greedy tag for any HTML escape characters
-	var regex5 = /[\w]+.(?=com|org|edu)/g; // Email Matching for > (for nesting)
+	var regex5 = /[\w]+\.(?=com|org|edu)/g; // Email Matching for > (for nesting)
 
 	console.log('NEW STRING OF '+new_string);
 	new_string = new_string.replace(regex1, '');
