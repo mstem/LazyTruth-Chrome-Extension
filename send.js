@@ -116,7 +116,10 @@ function myResponse(result) {
 	// Note: we want to alter the value of the TextNode of debunk_text
 	// debunkText Node --> innerHTML : (i)textNode (ii)'link' HTML element
 	// We want to edit (i)'s value and (ii)'s innerHTML
-	if (result.matched === true) { // and there was a match
+	if (!result) {
+		debunk_text.nodeValue = 'LazyTruth is currently down. We apologize for any inconvenience. Please try again later.';
+		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu/media/sourceicons/unsure.gif');
+	} else if (result.matched === true) { // and there was a match
 		// In the future, make sure the extension contains the source_icon and add logic
 		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu'+result.source_icon_url);
 		var textLength = result.fact_text.length

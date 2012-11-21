@@ -19,7 +19,7 @@ function create_ui() {
 	// default picture is the snopes picture
 	srcIcon = document.createElement("img"); 
 	//srcIcon.setAttribute('src','http://lazytruth.media.mit.edu/media/sourceicons/snopes.png'); 
-	srcIcon.setAttribute('style','float:left;padding-top:1.5em;padding-left:1em;');
+	srcIcon.setAttribute('style','float:left;padding-left:1em;');
 	srcIcon.setAttribute('class', 'lazytruth-icon');
 
 	// For empty container, below if statement is simply ignored, we'll always assume there's a detail_url
@@ -37,7 +37,7 @@ function create_ui() {
 	//header.setAttribute('style','font-weight:bold;padding-bottom:0.25em;display:block;');
 
 	inner_div = document.createElement('div');
-	inner_div.setAttribute('style','padding:1em;margin-left:4em;background-color:#EFEFEF;border:1px solid;border-radius:10px;-moz-border-radius:10px;');
+	inner_div.setAttribute('style','padding:1em;margin-left:4em;border:1px solid;');
 	inner_div.setAttribute('id', 'lazytruth-inner-div');
 	
 	new_div.appendChild(srcIcon);
