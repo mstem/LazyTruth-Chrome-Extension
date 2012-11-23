@@ -59,16 +59,13 @@ function listen_chrome() {
 	chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 			//ensure that tab_id is properly set
 			listen_gmail();
-			for (i=0; i < 1; ++i) {
-				if (tabId == gmail_tabs) {
-					chrome.tabs.executeScript(tabId, {file: 'listener.js'});
-
-					if (localStorage && localStorage.option === 'persistent') {
-						console.log('localStorage is persistent execute AJAX protocol');
-						chrome.tabs.executeScript(tabId, {file: 'send.js'});
-					}
-				}
-			}		
+			
+			if (tabId == gmail_tabs) {
+				chrome.tabs.executeScript(tabId, {file: 'listener.js'});
+				chrome.tabs.executeScript(tabId, {file: 'send.js'});
+				chrome.tabs.executeScript(tabId, {file: 'listener2.js'});
+			}
+					
 		});
 }
 
