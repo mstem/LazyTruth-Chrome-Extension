@@ -187,7 +187,7 @@ function body_log() {
 // really a measure for automatically activating AJAX to lazytruth server
 // we can add logic (via a new function) when to execute body_log
 // Note: to add logic, even in choice(button-case), we need to add LOGIC in create_button_ui
-body_log();
+// body_log();
 
 function trackTimer(Name) {
 	var d = new Date();

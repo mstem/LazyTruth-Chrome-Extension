@@ -98,7 +98,7 @@ function detButtonCreation(target_div, query_type) {
 	// Function takes no input and outputs True if the initial extension option is choice
 	// meaning that we would like to create the button (hence True)
 	// Else, the choice must be persistent and thus we don't want the button
-
+	console.log('QUERY TYPE OF '+query_type);
 	chrome.extension.sendMessage({question:'tellme'}, function(response) {
 		// True here means that we want the button ui to be created
 		// Note that when first called after installation(meaning response.answer === undefined)
