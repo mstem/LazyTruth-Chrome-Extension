@@ -72,7 +72,6 @@ function create_ui() {
 // The Function that actually inserts the UI, lives in check_frames function to insert
 // Few ISSUES --> DEBUGGING IS telling me that either MY Logic is wrong or something's not right
 function inject_div(div) {
-	console.log('injecting div');
 	var target = create_ui();
 
 
@@ -129,37 +128,29 @@ function check_frames() {
 				var body = last_email.outerHTML;
 				var forward = false;
 				if (body.search('---- Forwarded message ----') > -1) {
-					console.log('TRUE 1');
 					forward = true;
 				}
 				if (body.search('---- Original message ----') > -1) {
-					console.log('TRUE 2');
 					forward = true;
 				}
 				if (body.search('Begin forwarded message:') > -1) {
-					console.log('TRUE 3');
 					forward = true;
 				}		
 				var subjectArray = frame.getElementsByClassName('ha');
 				var subject = subjectArray[0].innerHTML;
 				if (subject.search('Fwd:') > -1) {
-					console.log('TRUE 4');
 					forward = true;
 				}
 				if (subject.search('FWD:') > -1) {
-					console.log('TRUE 5');
 					forward = true;
 				}
 				if (subject.search('Fw:') > -1) {
-					console.log('TRUE 4');
 					forward = true;
 				}
 				if (subject.search('FW:') > -1) {
-					console.log('TRUE 5');
 					forward = true;
 				}
 				if (subject.search('Welcome to LazyTruth!') > -1) {
-					console.log('Welcome Email Detected');
 					forward = true;
 				}
 				if (!forward) {

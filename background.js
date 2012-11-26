@@ -61,6 +61,7 @@ function listen_chrome() {
 			listen_gmail();
 			
 			if (tabId == gmail_tabs) {
+				chrome.tabs.executeScript(tabId, {file: 'jquery.js'});
 				chrome.tabs.executeScript(tabId, {file: 'listener2.js'});
 				chrome.tabs.executeScript(tabId, {file: 'listener.js'});
 				chrome.tabs.executeScript(tabId, {file: 'send.js'});
