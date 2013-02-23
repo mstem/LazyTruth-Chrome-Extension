@@ -118,7 +118,7 @@ function myResponse(result) {
 	// We want to edit (i)'s value and (ii)'s innerHTML
 	if (!result) {
 		debunk_text.nodeValue = 'LazyTruth is currently down. We apologize for any inconvenience. Please try again later.';
-		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu/media/sourceicons/unsure.gif');
+		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu/media/sourceicons/unsure.png');
 	} else if (result.matched === true) { // and there was a match
 		// In the future, make sure the extension contains the source_icon and add logic
 		source_icon.setAttribute('src', 'https://lazytruth.media.mit.edu'+result.source_icon_url);
