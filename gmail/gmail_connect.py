@@ -14,8 +14,8 @@ import getpass, imaplib, os
 import time
 import datetime
 
-DEFAULT_ID = "YOUR ID"
-DEFAULT_PW = 'PW'
+DEFAULT_ID = "justin@lazytruth.com"
+DEFAULT_PW = 'laziest!!!'
 
 LARGE_DOMAINS = ["gmail", "yahoo"]
 
@@ -78,7 +78,6 @@ class gmail_imap(object):
         if time_filter:
             last_check = since_parser(since)
             current_check = since_parser('now')
-
             x_gm_raw += (' after:' + last_check +' before:' +current_check)
 
         else:
@@ -128,8 +127,8 @@ class gmail_imap(object):
     
 def since_parser(since):
     cur_time = time.time()
-    d = {"month":30, "day":1, "year":365, "all":cur_time/(3600*24), "now":0}
-
+    d = {"month":30, "day":1, "year":365, "all":cur_time/(3600*24), "now":-1,}
+    print d[since]
     tstamp = cur_time - 3600 * 24 * d[since]
 
     since_parse = datetime.date.fromtimestamp(tstamp)
