@@ -14,8 +14,8 @@ import getpass, imaplib, os
 import time
 import datetime
 
-DEFAULT_ID = "justin@lazytruth.com"
-DEFAULT_PW = 'laziest!!!'
+DEFAULT_ID = "checkme@lazytruth.com"
+DEFAULT_PW = '[PW]'
 
 LARGE_DOMAINS = ["gmail", "yahoo"]
 
@@ -49,7 +49,7 @@ class gmail_imap(object):
         self.imap.select(mb)
         self.mb = mb
 
-    def search(self, since="month", x_gm_raw='', time_filter=True):
+    def search(self, since="instant", x_gm_raw='', time_filter=True):
         '''
         valid options for since would be
         "month" -> inbox e-mail since last-month
@@ -76,9 +76,10 @@ class gmail_imap(object):
         (ii) x_gm_raw, time_filter=False
         '''
         if time_filter:
-            last_check = since_parser(since)
-            current_check = since_parser('now')
-            x_gm_raw += (' after:' + last_check +' before:' +current_check)
+            #last_check = since_parser(since)
+            #current_check = since_parser('now')
+            #x_gm_raw += (' after:' + last_check +' before:' +current_check)
+            x_gm_raw += (' in:unread')
 
         else:
             x_gm_raw = x_gm_raw
@@ -127,7 +128,7 @@ class gmail_imap(object):
     
 def since_parser(since):
     cur_time = time.time()
-    d = {"month":30, "day":1, "year":365, "all":cur_time/(3600*24), "now":-1,}
+    d = {"month":30, "day":1, "year":365, "all":cur_time/(3600*24), "now":-1,"instant": 0}
     print d[since]
     tstamp = cur_time - 3600 * 24 * d[since]
 
