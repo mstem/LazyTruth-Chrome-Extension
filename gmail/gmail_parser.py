@@ -262,11 +262,9 @@ class gmail_parser(object):
         cleanedBody = str(content)
         cleanedBody = self.cleanse_body(cleanedBody)
         cleanedBody = re.sub(' +',' ',self.remove_tags(cleanedBody))
-        print cleanedBody
         reCompiled = re.compile(r"[\w\s]*<*.*@[\w.]*>(.*)", re.DOTALL) # DONE
         if reCompiled.match(cleanedBody):
             cleanedBody = reCompiled.findall(cleanedBody)[0]
-        print cleanedBody
         cleanedBody = cleanedBody.replace('=20',' ')
         cleanedBody = cleanedBody.replace('=A0',' ')
         cleanedBody = ' '.join(cleanedBody.split())
@@ -291,24 +289,29 @@ class gmail_parser(object):
         AMAZONUSER = "{USER}"
         PORT = 465
         PW = "{PW}"
+        print jsonData.keys()
         if 'fact_text' in jsonData.keys():
             #text = urllib.unquote(jsonData['fact_text'])
             text = jsonData['fact_text'].encode('utf-8')
         else:
             text = 'We do not currently have any information about this email.'
 
-        #if 'fact_image_url' in jsonData.keys():
-            #text += "<a href='http://www.factcheck.com'>Read more</a>"
-            #text += "<img src='http://lazytruth.media.mit.edu//media/factimages/WHXmasTree2010.png' />"
-            #text += "<img src='http://lazytruth.media.mit.edu//media/factimages/WHXmasTree2010.png' />" % (jsonData['fact_image_url'])
+        if 'detail_url' in jsonData.keys():
+            link = " <a href='%s' target=\"_blank\">Read more</a>" % (jsonData['detail_url'])
+            text += link.encode('utf-8')
+        if 'fact_image_url' in jsonData.keys():
+            image = "<br/><br/><img src='https://lazytruth.media.mit.edu/%s' />" % (jsonData['fact_image_url'])
+            text += image.encode('utf-8')
+
         BODY = string.join((
                 "From: %s" % FROM,
                 "To: %s" % TO,
+                "MIME-Version: 1.0",
+                "Content-type: text/html",
                 "Subject: %s" % SUBJECT ,
                 "",
                 text
                 ), "\r\n")
-        print BODY
         server = smtplib.SMTP_SSL("email-smtp.us-east-1.amazonaws.com", PORT)
         server.login(AMAZONUSER, PW)
         server.sendmail(FROM, [TO], BODY)

@@ -77,7 +77,7 @@ class Idler(object):
 try:
     # Set the following two lines to your creds and server
     M = imaplib2.IMAP4_SSL("imap.gmail.com")
-    M.login("checkme@lazytruth.com","{PW}")
+    M.login("ask@lazytruth.com","{PW}")
     # We need to get out of the AUTH state, so we just select 
     # the INBOX.
     M.select("INBOX")
