@@ -285,7 +285,7 @@ class gmail_parser(object):
     def send_email(self, subject, fromAddress, jsonData):
         SUBJECT = "Re: " + subject
         TO = fromAddress
-        FROM = "checkme@lazytruth.com"
+        FROM = "ask@lazytruth.com"
         AMAZONUSER = "{USER}"
         PORT = 465
         PW = "{PW}"
